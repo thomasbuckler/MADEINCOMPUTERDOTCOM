@@ -18,7 +18,7 @@
 
   // create overlay
   var o = document.createElement('div')
-  o.innerHTML = 'tap screen to load game'
+  o.innerHTML = 'TAP TO LOAD PIXEL PASSAGE'
   o.style.cssText = [
     'position: fixed',
     'top: 0',
