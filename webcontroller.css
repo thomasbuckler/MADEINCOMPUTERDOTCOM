@@ -2,7 +2,7 @@
   display:none;
 }
 
-@media {
+@media (max-width: 1024px) {
   .button {
     display: flex;
     align-items: center;
