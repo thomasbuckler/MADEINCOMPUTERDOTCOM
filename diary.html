@@ -65,7 +65,8 @@ Diary
 sed -n -in 's/.*\(http[^"]*\).*/\1/p' FILE.TXT (keep links from file)<br>
 convert none_5.gif -scale 500x500 bigger.gif (increase size of ani gif imagemagick)<br>
 or gifsicle --resize 500x500 1.gif > 2.gif (same with gifsicle)<br>
-sed -e 's/^/PREFIX_TO_EACH_LINE_IN_A_TEXT_FILE/' FILE.TXT
+sed -e 's/^/PREFIX_TO_EACH_LINE_IN_A_TEXT_FILE/' FILE.TXT<br>
+scp -r chip@192.168.2.14:~/remotefolder/location /local/destination/ (SCP FOLDERS (remove -r for indiv. files))
 </b> </font>
 <br>
 
