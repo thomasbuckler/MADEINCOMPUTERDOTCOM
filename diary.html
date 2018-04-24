@@ -61,7 +61,8 @@ Diary
 
 <p style="color: #a6a6a6; background-color: #f6f6f6">
 <font size="2">MEM, NV8D<br>
-<font color="#FF00FF"><b> sed 's/REMOVE_ME_ANDEVERYTHINGAFTERME.*//' FILE.TXT<br>
+<font color="#FF00FF"><b>for z in *.flac; do sox $z -r 44100 -b 16 $z.wav; done<br>
+sed 's/REMOVE_ME_ANDEVERYTHINGAFTERME.*//' FILE.TXT<br>
 sed -n -in 's/.*\(http[^"]*\).*/\1/p' FILE.TXT (keep links from file)<br>
 convert none_5.gif -scale 510x500 bigger.gif (increase size of ani gif imagemagick)<br>
 or gifsicle --resize 500x500 1.gif > 2.gif (same with gifsicle)<br>
