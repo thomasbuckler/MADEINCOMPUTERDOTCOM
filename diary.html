@@ -63,12 +63,13 @@ Diary
 <font size="2">MEM, NV8D<br>
 <font color="#FF00FF"><b>cut -c 25- F1 > F2 (rm 1st 25 chars frm ever line)<br>
 sed -in(n cuz -i wrd on mac) '/RM_LINES_NOT_IN_FILE/!d' FILE<br> 
-for z in *.flac; do sox $z -r 44100 -b 16 $z.wav; done<br>
+for z in *.flac; do sox $z -r 44100 -b 16 $z.wav; done (flac to wav)<br>
 sed 's/REMOVE_ME_ANDEVERYTHINGAFTERME.*//' FILE.TXT<br>
 sed -n -in 's/.*\(http[^"]*\).*/\1/p' FILE.TXT (keep links from file)<br>
 convert none_5.gif -scale 510x500 bigger.gif (increase size of ani gif imagemagick)<br>
 or gifsicle --resize 500x500 1.gif > 2.gif (same with gifsicle)<br>
-sed -e 's/^/PREFIX_TO_EACH_LINE_IN_A_TEXT_FILE/' FILE.TXT<br>
+sed 's/^/PREFIX_TO_EACH_LINE_IN_A_TEXT_FILE/' FILE.TXT<br>
+sed 's/$/APPEND_TO_EACH_LINE_IN_A_TEXT_FILE/' FILE.TXT<br>
 scp -r chip@192.168.2.14:~/remotefolder/location /local/destination/ (SCP FOLDERS (remove -r for indiv. files))
 </b> </font>
 <br>
