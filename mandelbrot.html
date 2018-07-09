@@ -1,0 +1,169 @@
+<html>
+<header>
+<script type="text/javascript">
+
+(function(host) {
+
+  var FULLY_OPAQUE_ALHPA = 255;
+  var FONT_SIZE_PX = 18;
+
+  function Display(canvas, width, height) {
+    this.canvas = canvas;
+    this.width = width;
+    this.height = height;
+    this.context = null;
+    this.imageData = null;
+  }
+
+  Display.prototype.initialize = function() {
+    this.canvas.setAttribute('width', window.innerWidth);
+    this.canvas.setAttribute('height', window.innerHeight);
+
+    this.context = this.canvas.getContext('2d');
+    this.context.font = FONT_SIZE_PX + 'px Arial';
+    this.imageData = this.context.getImageData(0, 0, this.width, this.height);
+  };
+
+  Display.prototype.drawPixel = function(x, y, color) {
+    var index = (x + y * this.width) * 4;
+    this.imageData.data[index + 0] = color;
+    this.imageData.data[index + 1] = color;
+    this.imageData.data[index + 2] = color;
+    this.imageData.data[index + 3] = FULLY_OPAQUE_ALHPA;
+  }
+
+  Display.prototype.showComputationBorder = function(y) {
+    this.context.fillRect(0, y, this.width, 1);
+  }
+
+  Display.prototype.repaint = function() {
+    this.context.putImageData(this.imageData, 0, 0);
+  }
+
+  Display.prototype.showProgress = function(progress, pixelsPerSecond) {
+    this.context.fillStyle = 'green';
+    var progressInfo = progress.toFixed(2) + '%';
+    var speedInfo = 'Speed ' + pixelsPerSecond + 'K pixels/second';
+    this.context.fillText("Drawing Mandelbrot set... " + progressInfo + ' ' + speedInfo, 20, 20);
+  }
+
+  host.Display = Display;
+})(this);
+
+(function(host) {
+  var MAX_COLOR = 255;
+  var MAX_VALUE = 4.0;
+  var MAX_ITERATIONS = 60;
+  var COLOR_SCALE = Math.floor(MAX_COLOR / MAX_ITERATIONS);
+
+  function getEscapeIterationsNumber(pointX, pointY) {
+    var currentIteration = 0;
+    var x = 0;
+    var y = 0;
+    while ((currentIteration < MAX_ITERATIONS) && (x * x + y * y < MAX_VALUE)) {
+      const xOfSquare = x * x - y * y;
+      const yOfSquare = 2 * x * y;
+      x = xOfSquare + pointX;
+      y = yOfSquare + pointY;
+      currentIteration++;
+    }
+    return currentIteration;
+  }
+
+  function getColorForIteration(iterationNumber) {
+    return Math.min(iterationNumber * COLOR_SCALE, MAX_COLOR);
+  }
+
+  host.EscapeAlgorithm = {
+    getColor: function(x, y) {
+      return getColorForIteration(getEscapeIterationsNumber(x, y));
+    }
+  };
+})(this);
+
+(function(host) {
+
+  /*
+   * Optimization: canvas will be repainted only after each UPDATE_CANVAS_STEP lines are computed
+   * because repainting is quite slow.
+   */
+  const UPDATE_CANVAS_STEP = 50;
+  const SCALED_SIZE = 4;
+
+  function MandelbrotSetVisualization(display, width, height) {
+    this.display = display;
+    this.width = width;
+    this.height = height;
+    this.size = Math.min(width, height);
+    this.totalProgressPercent = 0;
+    this.progressPerLinePercent = (1 / height) * 100;
+  }
+
+  MandelbrotSetVisualization.prototype.computeAndDraw = function() {
+    var self = this;
+    this.startTime = new Date().getTime();
+    var width = this.width;
+    var height = this.height;
+    this.totalProgress = 0;
+
+    var promises = [];
+    for (var y = 0; y < height; y++) {
+      promises.push(new Promise(function(resolve, reject) {
+        setTimeout(function(y) {
+          for (var x = 0; x < width; x++) {
+            const color = EscapeAlgorithm.getColor(self.scaleX(x), self.scaleY(y));
+            self.display.drawPixel(x, y, color);
+          }
+          self.totalProgressPercent += self.progressPerLinePercent;
+          self.drawCurrentState(y);
+          resolve();
+        }, 0, y);
+      }));
+    }
+    Promise.all(promises).then(function() {
+      self.display.repaint();
+    });
+  }
+
+  MandelbrotSetVisualization.prototype.drawCurrentState = function(y) {
+    if (y % UPDATE_CANVAS_STEP === 0) {
+      this.display.repaint();
+      const elapsedTime = new Date().getTime() - this.startTime;
+      const thousandPixelsPerSecond = Math.floor((((y + 1) * this.width) / elapsedTime));
+      this.display.showComputationBorder(y);
+      this.display.showProgress(this.totalProgressPercent, thousandPixelsPerSecond);
+    }
+  };
+
+  MandelbrotSetVisualization.prototype.scaleX = function(x) {
+    return (SCALED_SIZE * x / this.size) - (SCALED_SIZE * this.width) / (2 * this.size);
+  }
+
+  MandelbrotSetVisualization.prototype.scaleY = function(y) {
+    return (SCALED_SIZE * y / this.size) - (SCALED_SIZE * this.height) / (2 * this.size);
+  }
+
+  host.MandelbrotSetVisualization = MandelbrotSetVisualization;
+})(this);
+
+function main() {
+  var width = window.innerWidth;
+  var height = window.innerHeight;
+  var canvas = document.querySelector('canvas');
+  var display = new Display(canvas, width, height);
+  var setOfMandelbrot = new MandelbrotSetVisualization(display, width, height);
+
+  display.initialize();
+  setOfMandelbrot.computeAndDraw();
+}
+
+window.addEventListener('load', main);
+</script>
+<title>
+  Mandelbrot Set Visualization
+</title>
+</header>
+<body>
+    <canvas></canvas>
+</body>
+</html>
