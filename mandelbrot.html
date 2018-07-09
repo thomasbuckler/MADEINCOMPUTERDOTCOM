@@ -92,9 +92,9 @@
 
   function MandelbrotSetVisualization(display, width, height) {
     this.display = display;
-    this.width = width;
-    this.height = height;
-    this.size = Math.min(width, height);
+    this.width = 3000;
+    this.height = 3000;
+    this.size = Math.min(3000, 3000);
     this.totalProgressPercent = 0;
     this.progressPerLinePercent = (1 / height) * 100;
   }
@@ -110,7 +110,7 @@
     for (var y = 0; y < height; y++) {
       promises.push(new Promise(function(resolve, reject) {
         setTimeout(function(y) {
-          for (var x = 0; x < width; x++) {
+          for (var x = 0; x < 3000; x++) {
             const color = EscapeAlgorithm.getColor(self.scaleX(x), self.scaleY(y));
             self.display.drawPixel(x, y, color);
           }
@@ -147,8 +147,8 @@
 })(this);
 
 function main() {
-  var width = window.innerWidth;
-  var height = window.innerHeight;
+  var width = 3000;
+  var height = 3000;
   var canvas = document.querySelector('canvas');
   var display = new Display(canvas, width, height);
   var setOfMandelbrot = new MandelbrotSetVisualization(display, width, height);
