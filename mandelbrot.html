@@ -9,15 +9,15 @@
 
   function Display(canvas, width, height) {
     this.canvas = canvas;
-    this.width = 3000;
-    this.height =3000;
+    this.width = width;
+    this.height = height;
     this.context = null;
     this.imageData = null;
   }
 
   Display.prototype.initialize = function() {
-    this.canvas.setAttribute('3000', window.innerWidth);
-    this.canvas.setAttribute('3000', window.innerHeight);
+    this.canvas.setAttribute('width', window.innerWidth);
+    this.canvas.setAttribute('height', window.innerHeight);
 
     this.context = this.canvas.getContext('2d');
     this.context.font = FONT_SIZE_PX + 'px Arial';
@@ -53,7 +53,7 @@
 (function(host) {
   var MAX_COLOR = 255;
   var MAX_VALUE = 4.0;
-  var MAX_ITERATIONS = 30;
+  var MAX_ITERATIONS = 60;
   var COLOR_SCALE = Math.floor(MAX_COLOR / MAX_ITERATIONS);
 
   function getEscapeIterationsNumber(pointX, pointY) {
@@ -92,9 +92,9 @@
 
   function MandelbrotSetVisualization(display, width, height) {
     this.display = display;
-    this.width = 3000;
-    this.height = 3000;
-    this.size = Math.min(3000, 3000);
+    this.width = width;
+    this.height = height;
+    this.size = Math.min(width, height);
     this.totalProgressPercent = 0;
     this.progressPerLinePercent = (1 / height) * 100;
   }
@@ -110,7 +110,7 @@
     for (var y = 0; y < height; y++) {
       promises.push(new Promise(function(resolve, reject) {
         setTimeout(function(y) {
-          for (var x = 0; x < 3000; x++) {
+          for (var x = 0; x < width; x++) {
             const color = EscapeAlgorithm.getColor(self.scaleX(x), self.scaleY(y));
             self.display.drawPixel(x, y, color);
           }
@@ -147,8 +147,8 @@
 })(this);
 
 function main() {
-  var width = 3000;
-  var height = 3000;
+  var width = window.innerWidth;
+  var height = window.innerHeight;
   var canvas = document.querySelector('canvas');
   var display = new Display(canvas, width, height);
   var setOfMandelbrot = new MandelbrotSetVisualization(display, width, height);
