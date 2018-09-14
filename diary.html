@@ -62,7 +62,7 @@ Diary
 <p style="color: #a6a6a6; background-color: #f6f6f6">
 <font size="2">MEMM, NV8D<br>
 <font color="#FF00FF"><b>
-ave=$(awk '{s+=$1}END{print"",s/NR}' RS=" " file.file) average of list of #s<br>
+ave=$(awk '{s+=$1}END{print"",s/NR}' file.file) average of list of #s<br>
 sed -r 's/.\{120\}$//' file.file (remove last n(120) characters of EVERY line)<br> 
 convert forward.gif -reverse backward.gif (rev.gif)<br>
 j=$(printf %03d $(expr $j + 1)) [keep trailing 0s, helpful for *.gif to gif.gif]<br>
