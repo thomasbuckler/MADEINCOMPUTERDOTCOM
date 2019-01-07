@@ -1,37 +1,5 @@
 <!DOCTYPE html>
 <html>
-<head>
-<script type="text/javascript" src="//code.jquery.com/jquery-1.9.1.js"></script>
-<link rel="stylesheet" type="text/css" href="/css/result-light.css">
-<style type="text/css">
-</style>
-
-<script type='text/javascript'>//<![CDATA[
-$(window).load(function(){
-// Retrieve the words
-var text = $("GGG").html().split("");
-
-// Empty the elment
-$("GGG").empty();
-
-// Iterate over the words
-$.each(text, function(i, word) {
-  if (i != text.length) {
-    word += ""; // Add space after word 
-  }
-
-  // Get random color
-  var colour = '#' + Math.floor(Math.random() * 16777215).toString(16);
-
-  $("<span>")
-    .html(word)
-    .css("color", colour)
-    .appendTo($("GGG"));
-});
-});//]]> 
-
-</script>
-</head>
 
 <font face="monospace">
 <body bgcolor="white">
@@ -50,16 +18,10 @@ Made In Computer
 </font>
 </p>
 
-<font size="12">
-
-<p style="color: #000000; background-color: #F0FFF0">
-    <b><GGG>Welcome to MADEINCOMPUTER.COM!</GGG> 🤹</b>
-</p>
+<font size="10">
+<p style="color: #F0FFF0; background-color: #F0FFF0">></p>
 </font>
     
-
-    </p>
-    </font>
-</html>
+</p></font></html>
 
 
