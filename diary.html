@@ -481,7 +481,7 @@ ffmpeg -loop 1 -i image.jpg -i audio.wav -c:v libx264 -tune stillimage -c:a aac 
 <font color="#FF00FF"><b>
 while true; do tail -50 data | sort; echo "check time"; ave=$(awk '{s+=$1}END{print"",s/NR}' average); echo "$ave * 12 * 0.81" | bc; sleep 10; done<br>
 smoldering discontent<br>
-first "df" at bash to find disk, then, sudo dd if=/dev/disk2s1(4s1) of=~/copy.iso bs=2048 conv=sync,notrunc (clone)<br>
+first "df" at bash to find disk, then, sudo dd if=/dev/disk3s1(remove anything after s1) of=~/copy.iso bs=2048 conv=sync,notrunc (clone)(also make sure your shell is bash, not zsh)<br>
 rm -rf /dir/ (remove directory mac)<br>
 sed 's/find1/replace1/; s/find2/replace2/; etc; etc' file.txt | pbcopy (multiple search replace)<br>
 sort camphor.csv | uniq -c | grep -v '^ *1 ' (show me dupes)<br>
